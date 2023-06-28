@@ -29,10 +29,10 @@ public class PlayerMovement : MonoBehaviour
         switch (isFacing)
         {
         case Facing.Down:
-        punchingForce= new Vector2(0,10);
+        punchingForce= new Vector2(0,-10);
         break;
         case Facing.Up:
-        punchingForce= new Vector2(0,-10);
+        punchingForce= new Vector2(0,10);
         break;
         case Facing.Left:
         punchingForce=new Vector2(-10,0);
@@ -41,14 +41,14 @@ public class PlayerMovement : MonoBehaviour
         punchingForce=new Vector2(10,0);
         break;
         }
-        if(other.collider.tag!="")
+        /*if(other.collider.tag!="")
         {
         barileToccato="si";
         Debug.Log("barileToccato="+barileToccato+punching);
 
         await Task.Delay(500);
         barileToccato="no";
-        }
+        }*/
         
          
         if(other.collider.tag=="Barrell"&&punching)
@@ -57,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
             barrellBody.constraints= RigidbodyConstraints2D.FreezeRotation;
             barrellBody.AddForce(punchingForce, ForceMode2D.Impulse);
             punching=false;
+            await Task.Delay(300);
+            barrellBody.constraints= RigidbodyConstraints2D.FreezeAll;
         }    
     }
     
@@ -66,10 +68,10 @@ public class PlayerMovement : MonoBehaviour
         switch (isFacing)
         {
         case Facing.Down:
-        punchingForce= new Vector2(0,5);
+        punchingForce= new Vector2(0,-5);
         break;
         case Facing.Up:
-        punchingForce= new Vector2(0,-5);
+        punchingForce= new Vector2(0,5);
         break;
         case Facing.Left:
         punchingForce=new Vector2(-5,0);
@@ -78,13 +80,13 @@ public class PlayerMovement : MonoBehaviour
         punchingForce=new Vector2(5,0);
         break;
         }
-        if(other.collider.tag!="")
+        /*if(other.collider.tag!="")
         {
         barileToccato="si";
         Debug.Log("barileToccato="+barileToccato+punching);
         await Task.Delay(500);
         barileToccato="no";
-        }
+        }*/
         
          
         if(other.collider.tag=="Barrell"&&punching)
@@ -93,6 +95,8 @@ public class PlayerMovement : MonoBehaviour
             barrellBody.constraints= RigidbodyConstraints2D.FreezeRotation;
             barrellBody.AddForce(punchingForce, ForceMode2D.Impulse);
             punching=false;
+                        await Task.Delay(300);
+            barrellBody.constraints= RigidbodyConstraints2D.FreezeAll;
         }  
     }
     private void Awake() //calling this method when the scene is 1st initialized

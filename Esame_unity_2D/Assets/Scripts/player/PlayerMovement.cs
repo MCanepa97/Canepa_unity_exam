@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Threading.Tasks;
 
+
 public class PlayerMovement : MonoBehaviour
 {
     enum Facing
@@ -13,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
         Left,
         Right
     }
-    string barileToccato="no";
+    
     private Facing isFacing= Facing.Down;
     private bool punching=false;
     [SerializeField] private float speed = 4f;
@@ -23,81 +24,15 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _velocityTracker; //a vector to keep track of the velocity of the change
     public Animator animator; //creazione di un animator
 
-    private async void OnCollisionEnter2D(Collision2D other) 
+    private void OnCollisionEnter2D(Collision2D other) 
     {
-        Vector2 punchingForce= new Vector2(0,10);
-        switch (isFacing)
-        {
-        case Facing.Down:
-        punchingForce= new Vector2(0,-10);
-        break;
-        case Facing.Up:
-        punchingForce= new Vector2(0,10);
-        break;
-        case Facing.Left:
-        punchingForce=new Vector2(-10,0);
-        break;
-        case Facing.Right:
-        punchingForce=new Vector2(10,0);
-        break;
-        }
-        /*if(other.collider.tag!="")
-        {
-        barileToccato="si";
-        Debug.Log("barileToccato="+barileToccato+punching);
-
-        await Task.Delay(500);
-        barileToccato="no";
-        }*/
+        punchingTheBaddies(other);
         
-         
-        if(other.collider.tag=="Barrell"&&punching)
-        {
-            Rigidbody2D barrellBody= other.collider.GetComponent<Rigidbody2D>();
-            barrellBody.constraints= RigidbodyConstraints2D.FreezeRotation;
-            barrellBody.AddForce(punchingForce, ForceMode2D.Impulse);
-            punching=false;
-            await Task.Delay(300);
-            barrellBody.constraints= RigidbodyConstraints2D.FreezeAll;
-        }    
     }
     
-    private async void OnCollisionStay2D(Collision2D other)
+    private void OnCollisionStay2D(Collision2D other)
     {
-        Vector2 punchingForce= new Vector2(0,10);
-        switch (isFacing)
-        {
-        case Facing.Down:
-        punchingForce= new Vector2(0,-5);
-        break;
-        case Facing.Up:
-        punchingForce= new Vector2(0,5);
-        break;
-        case Facing.Left:
-        punchingForce=new Vector2(-5,0);
-        break;
-        case Facing.Right:
-        punchingForce=new Vector2(5,0);
-        break;
-        }
-        /*if(other.collider.tag!="")
-        {
-        barileToccato="si";
-        Debug.Log("barileToccato="+barileToccato+punching);
-        await Task.Delay(500);
-        barileToccato="no";
-        }*/
-        
-         
-        if(other.collider.tag=="Barrell"&&punching)
-        {
-            Rigidbody2D barrellBody= other.collider.GetComponent<Rigidbody2D>();
-            barrellBody.constraints= RigidbodyConstraints2D.FreezeRotation;
-            barrellBody.AddForce(punchingForce, ForceMode2D.Impulse);
-            punching=false;
-                        await Task.Delay(300);
-            barrellBody.constraints= RigidbodyConstraints2D.FreezeAll;
-        }  
+        punchingTheBaddies(other);  
     }
     private void Awake() //calling this method when the scene is 1st initialized
     {
@@ -225,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
         await Task.Delay(500);
         speed=4;
         animator.SetBool("punch", false);  
-        
+        punching = false;
     }
 
     public async Task punchUp()
@@ -234,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
         await Task.Delay(500);
         speed=4;
         animator.SetBool("punchUp", false);   
-        
+        punching = false;
     }
     public async Task punchDown()
     {
@@ -242,7 +177,7 @@ public class PlayerMovement : MonoBehaviour
         await Task.Delay(500);
         speed=4;
         animator.SetBool("punchDown", false);   
-        
+        punching = false;
     }
     public async Task punchRight()
     {
@@ -250,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
         await Task.Delay(500);
         speed=4;
         animator.SetBool("punchRight", false);   
-        
+        punching = false;
     }
     public async Task punchLeft()
     {
@@ -258,6 +193,51 @@ public class PlayerMovement : MonoBehaviour
         await Task.Delay(500);
         speed=4;
         animator.SetBool("punchLeft", false);   
-        
+        punching = false;
+    }
+
+public async void punchingTheBaddies(Collision2D other)
+    {
+        int force = 5;
+        int slowingForce = 1;
+        Vector2 punchingForce= new Vector2(0,10);
+        Vector2 slowingDown = new Vector2(0,0);
+        Rigidbody2D barrellBody= other.collider.GetComponent<Rigidbody2D>();
+
+        switch (isFacing){
+        case Facing.Down:
+        punchingForce= new Vector2(0,-force);
+        slowingDown= new Vector2(0,slowingForce);
+        break;
+        case Facing.Up:
+        punchingForce= new Vector2(0,force);
+        slowingDown= new Vector2(0,-slowingForce);
+        break;
+        case Facing.Left:
+        punchingForce=new Vector2(-force,0);
+        slowingDown= new Vector2(slowingForce,0);
+        break;
+        case Facing.Right:
+        punchingForce=new Vector2(force,0);
+        slowingDown= new Vector2(-slowingForce,0);
+        break;
+        }      
+            
+        if(other.collider.tag=="Barrell"&&punching)
+        {
+            barrellBody.constraints= RigidbodyConstraints2D.FreezeRotation;
+            barrellBody.AddForce(punchingForce, ForceMode2D.Impulse);
+            punching=false;
+            int counter=0;
+            while (counter<5)
+            {
+                await Task.Delay(350);
+                barrellBody.AddForce(slowingDown, ForceMode2D.Impulse);
+                counter++;
+                
+            }
+            barrellBody.constraints= RigidbodyConstraints2D.FreezeAll;
+            
+        }
     }
 }

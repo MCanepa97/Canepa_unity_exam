@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
         Left,
         Right
     }
-    
+    public GoblinAI goblinAI;
     private Facing isFacing= Facing.Down;
     private bool punching=false;
     [SerializeField] private float speed = 4f;
@@ -202,8 +202,8 @@ public async void punchingTheBaddies(Collision2D other)
         int slowingForce = 1;
         Vector2 punchingForce= new Vector2(0,10);
         Vector2 slowingDown = new Vector2(0,0);
-        Rigidbody2D barrellBody= other.collider.GetComponent<Rigidbody2D>();
-
+        Rigidbody2D goblinBody = other.collider.GetComponent<Rigidbody2D>();
+        GameObject theGoblin = other.gameObject;
         switch (isFacing){
         case Facing.Down:
         punchingForce= new Vector2(0,-force);
@@ -218,25 +218,27 @@ public async void punchingTheBaddies(Collision2D other)
         slowingDown= new Vector2(slowingForce,0);
         break;
         case Facing.Right:
-        punchingForce=new Vector2(force,0);
-        slowingDown= new Vector2(-slowingForce,0);
+        punchingForce = new Vector2(force,0);
+        slowingDown = new Vector2(-slowingForce,0);
         break;
         }      
             
         if(other.collider.tag=="Goblin"&&punching)
         {
-            barrellBody.constraints= RigidbodyConstraints2D.FreezeRotation;
-            barrellBody.AddForce(punchingForce, ForceMode2D.Impulse);
-            punching=false;
+            
+            goblinBody.constraints= RigidbodyConstraints2D.FreezeRotation;
+            goblinBody.AddForce(punchingForce, ForceMode2D.Impulse);
+            punching = false;
             int counter=0;
+            goblinAI.Hit();
             while (counter<5)
             {
                 await Task.Delay(350);
-                barrellBody.AddForce(slowingDown, ForceMode2D.Impulse);
+                goblinBody.AddForce(slowingDown, ForceMode2D.Impulse);
                 counter++;
                 
             }
-            barrellBody.constraints= RigidbodyConstraints2D.FreezeAll;
+            
             
         }
     }

@@ -8,11 +8,14 @@ public class GoblinAI : MonoBehaviour
     private bool hasCheddar=false;
     public GameObject barrell;
     public GameObject hole;
+    public GameObject goblinGameObject;
     public float speed;
     private float pathToCheddar;
     public Animator animator;
     Rigidbody2D goblinBody;
     Vector2 movement;
+    public int HP = 2;
+    public bool isFlying = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +53,10 @@ public class GoblinAI : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) 
     {
         FoundCheddar(other);
+        if (other.collider.tag=="Wall"&&isFlying)
+        {
+            Destroy(goblinGameObject);
+        }
     }
     
 
@@ -65,5 +72,16 @@ public class GoblinAI : MonoBehaviour
             Debug.Log("SCAPPA COL CHEDDAR!");
             goblinBody.gameObject.SetActive(false);
         }
+    }
+    public void Hit()
+    {
+        HP--;
+        isFlying=true;
+        if (HP<=0)
+        {
+           Destroy(goblinGameObject); 
+        }
+        
+        
     }
 }

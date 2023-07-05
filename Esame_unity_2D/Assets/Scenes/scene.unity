@@ -317,6 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3d58b239137cc4d8b8cd6502f3a0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goblinAI: {fileID: 982224208}
   speed: 4
   animator: {fileID: 190425581}
 --- !u!70 &190425578
@@ -419,6 +420,7 @@ GameObject:
   - component: {fileID: 205183282}
   - component: {fileID: 205183281}
   - component: {fileID: 205183284}
+  - component: {fileID: 205183285}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -526,6 +528,24 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &205183285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205183280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bd6fed2262ff794585f36fc826e0e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goblin: {fileID: 982224206}
+  possibleSpawns:
+  - {x: -3.6, y: -3.93}
+  - {x: -3.6, y: 3.93}
+  - {x: -10.5, y: 0.16}
+  - {x: -6, y: 2.5}
 --- !u!1 &670811598
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,7 +608,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982224206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.63, y: 3.98, z: 0.05269052}
+  m_LocalPosition: {x: 5.98, y: -2.5, z: 0.05269052}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -610,8 +630,11 @@ MonoBehaviour:
   direction: {x: 0, y: 0}
   barrell: {fileID: 1233640945}
   hole: {fileID: 109148991}
+  goblinGameObject: {fileID: 982224206}
   speed: 2
   animator: {fileID: 982224209}
+  HP: 2
+  isFlying: 0
 --- !u!95 &982224209
 Animator:
   serializedVersion: 5

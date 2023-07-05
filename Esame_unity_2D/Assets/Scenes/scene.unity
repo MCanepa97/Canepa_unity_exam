@@ -610,7 +610,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0}
   barrell: {fileID: 1233640945}
   hole: {fileID: 109148991}
-  speed: 3
+  speed: 2
   animator: {fileID: 982224209}
 --- !u!95 &982224209
 Animator:
@@ -679,7 +679,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 7
 --- !u!212 &982224212
 SpriteRenderer:
   m_ObjectHideFlags: 0

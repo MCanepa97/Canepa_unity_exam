@@ -40,7 +40,7 @@ public class GoblinAI : MonoBehaviour
 
         direction.Normalize();
         
-        Debug.Log("x="+direction.x+"y="+direction.y);
+        Debug.Log(goblinBody.velocity.magnitude.ToString());
         animator.SetFloat("Horizontal", direction.x);
         animator.SetFloat("Vertical", direction.y);
         /*animator.SetFloat("Horizontal", direction.x);    
@@ -51,6 +51,7 @@ public class GoblinAI : MonoBehaviour
     {
         FoundCheddar(other);
     }
+    
 
     public void FoundCheddar(Collision2D other)
     {

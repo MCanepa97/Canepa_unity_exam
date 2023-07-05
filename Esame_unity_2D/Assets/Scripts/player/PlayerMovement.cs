@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _smoothedMovementInput; // a secondary movement vector to smooth out movement when input ends
     private Vector2 _velocityTracker; //a vector to keep track of the velocity of the change
     public Animator animator; //creazione di un animator
-
+    
     private void OnCollisionEnter2D(Collision2D other) 
     {
         punchingTheBaddies(other);
@@ -223,7 +223,7 @@ public async void punchingTheBaddies(Collision2D other)
         break;
         }      
             
-        if(other.collider.tag=="Barrell"&&punching)
+        if(other.collider.tag=="Goblin"&&punching)
         {
             barrellBody.constraints= RigidbodyConstraints2D.FreezeRotation;
             barrellBody.AddForce(punchingForce, ForceMode2D.Impulse);

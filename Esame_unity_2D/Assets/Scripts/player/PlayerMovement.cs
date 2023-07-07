@@ -230,7 +230,8 @@ public async void punchingTheBaddies(Collision2D other)
             goblinBody.AddForce(punchingForce, ForceMode2D.Impulse);
             punching = false;
             int counter=0;
-            goblinAI.Hit();
+            other.gameObject.GetComponent<GoblinAI>().Hit();
+            
             while (counter<5)
             {
                 await Task.Delay(350);

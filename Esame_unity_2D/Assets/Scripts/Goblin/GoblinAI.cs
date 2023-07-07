@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class GoblinAI : MonoBehaviour
 {
     public Vector2 direction;
-    private bool hasCheddar=false;
+    public bool hasCheddar=false;
     public GameObject barrell;
+    public GameObject cheddar;
     public GameObject hole;
     public GameObject goblinGameObject;
     public float speed;
+    bool rotating;
     private float pathToCheddar;
     public Animator animator;
     Rigidbody2D goblinBody;
@@ -25,21 +28,19 @@ public class GoblinAI : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!hasCheddar)
+        if (!hasCheddar&&!isFlying)
         {
         //gets the distance between barrell and goblin
-        pathToCheddar = Vector2.Distance(transform.position, barrell.transform.position);
-        direction = barrell.transform.position- transform.position;
-        transform.position = Vector2.MoveTowards(this.transform.position, barrell.transform.position, speed*Time.deltaTime);
+        pathToCheddar = Vector2.Distance(transform.position, cheddar.transform.position);
+        direction = cheddar.transform.position- transform.position;
+        transform.position = Vector2.MoveTowards(this.transform.position, cheddar.transform.position, speed*Time.deltaTime);
         }
-        else
+        else if(hasCheddar)
         {
         float pathToHole = Vector2.Distance(transform.position, hole.transform.position);
         direction = hole.transform.position- transform.position;
         transform.position = Vector2.MoveTowards(this.transform.position, hole.transform.position, speed*Time.deltaTime);  
-        }
-       
-        
+        }      
 
         direction.Normalize();
         
@@ -62,8 +63,9 @@ public class GoblinAI : MonoBehaviour
 
     public void FoundCheddar(Collision2D other)
     {
-        if (other.collider.tag=="Barrell")
+        if (other.collider.tag=="Cheddar")
         {
+        
         animator.SetBool("HasCheddar",true);
         hasCheddar=true;
         }
@@ -73,14 +75,29 @@ public class GoblinAI : MonoBehaviour
             goblinBody.gameObject.SetActive(false);
         }
     }
-    public void Hit()
+    public async void Hit()
     {
         HP--;
         isFlying=true;
-        if (HP<=0)
+        animator.SetBool("IsFlying",true);
+        
+        if(hasCheddar)
         {
-           Destroy(goblinGameObject); 
+            hasCheddar=false;
+            animator.SetBool("HasCheddar",false);
+            cheddar.GetComponent<CheddarScript>().GoblinGotHit(); 
+            if (HP<=0)
+            {
+            Destroy(goblinGameObject); 
+            }
+            await Task.Delay(400);
+            isFlying=false;
+            rotating=false;
+            animator.SetBool("IsFlying",false);
         }
+        
+       
+        
         
         
     }

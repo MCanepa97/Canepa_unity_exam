@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BarrellScript : MonoBehaviour
 {
-     private Rigidbody2D _barrellBody;
+    private Rigidbody2D _barrellBody;
     public Animator animator;
+    public bool hasCheddar=true;
     private void Awake() {
       _barrellBody= GetComponent<Rigidbody2D>();
     }
@@ -29,6 +30,8 @@ public class BarrellScript : MonoBehaviour
       _barrellBody.constraints= RigidbodyConstraints2D.FreezeAll;
       
     if(other.collider.tag=="Goblin")
-      animator.SetBool("CheddarStolen", true);
+      hasCheddar=false;
+      animator.SetBool("CheddarStolen", !hasCheddar);
   }
+  
 }

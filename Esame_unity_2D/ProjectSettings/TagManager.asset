@@ -17,8 +17,8 @@ TagManager:
   - Water
   - UI
   - objects
-  - 
-  - 
+  - cheddar
+  - player
   - 
   - 
   - 
@@ -51,4 +51,10 @@ TagManager:
     locked: 0
   - name: objects
     uniqueID: 1807177467
+    locked: 0
+  - name: cheddar
+    uniqueID: 3022596335
+    locked: 0
+  - name: player
+    uniqueID: 516662925
     locked: 0

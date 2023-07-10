@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 public class PlayerMovement : MonoBehaviour
 {
-    enum Facing
+    public enum Facing
     {
         Up,
         Down,
         Left,
         Right
     }
+    public Facing lastPunchDirection;
     public GoblinAI goblinAI;
-    private Facing isFacing= Facing.Down;
+    public Facing isFacing= Facing.Down;
     private bool punching=false;
     [SerializeField] private float speed = 4f;
     private Rigidbody2D _rigidBody; // creates a variable that will store a rigidBody
@@ -206,18 +207,22 @@ public async void punchingTheBaddies(Collision2D other)
         GameObject theGoblin = other.gameObject;
         switch (isFacing){
         case Facing.Down:
+        lastPunchDirection= Facing.Down;
         punchingForce= new Vector2(0,-force);
         slowingDown= new Vector2(0,slowingForce);
         break;
         case Facing.Up:
+        lastPunchDirection= Facing.Up;
         punchingForce= new Vector2(0,force);
         slowingDown= new Vector2(0,-slowingForce);
         break;
         case Facing.Left:
+        lastPunchDirection= Facing.Left;
         punchingForce=new Vector2(-force,0);
         slowingDown= new Vector2(slowingForce,0);
         break;
         case Facing.Right:
+        lastPunchDirection= Facing.Right;
         punchingForce = new Vector2(force,0);
         slowingDown = new Vector2(-slowingForce,0);
         break;

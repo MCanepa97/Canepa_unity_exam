@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 190425577}
   - component: {fileID: 190425580}
   - component: {fileID: 190425581}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,8 +291,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1807177467
-  m_SortingLayer: 2
+  m_SortingLayerID: 516662925
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -210464148, guid: e37398818eb790b4b992a7f530d81438, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -317,7 +317,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3d58b239137cc4d8b8cd6502f3a0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastPunchDirection: 0
   goblinAI: {fileID: 982224208}
+  isFacing: 1
   speed: 4
   animator: {fileID: 190425581}
 --- !u!70 &190425578
@@ -540,11 +542,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd6fed2262ff794585f36fc826e0e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentRound: 1
+  requiredGoblins: 1
+  goblinKilled: 0
+  currentGoblinNum: 0
+  roundCounter: {fileID: 1520563593}
+  gameOver: {fileID: 1890353794}
+  cheddarGotStolen: 0
   goblin: {fileID: 982224206}
   possibleSpawns:
   - {x: -3.6, y: -3.93}
   - {x: -3.6, y: 3.93}
-  - {x: -10.5, y: 0.16}
+  - {x: -8.6, y: 0.16}
   - {x: -6, y: 2.5}
 --- !u!1 &670811598
 GameObject:
@@ -671,6 +680,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1890353793}
   - {fileID: 1520563592}
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -693,7 +703,7 @@ GameObject:
   - component: {fileID: 767656410}
   - component: {fileID: 767656413}
   - component: {fileID: 767656412}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cheddar
   m_TagString: Cheddar
   m_Icon: {fileID: 0}
@@ -766,8 +776,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1807177467
-  m_SortingLayer: 2
+  m_SortingLayerID: -1272370961
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1061800040, guid: ddc91674f54131a4c9d58bae627a7723, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -865,6 +875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 214345776ddfad3439871130c6a31211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraScripts: {fileID: 205183280}
   direction: {x: 0, y: 0}
   hasCheddar: 0
   barrell: {fileID: 1233640945}
@@ -872,8 +883,9 @@ MonoBehaviour:
   hole: {fileID: 109148991}
   goblinGameObject: {fileID: 982224206}
   speed: 2
+  rotating: 0
   animator: {fileID: 982224209}
-  HP: 100
+  HP: 2
   isFlying: 0
 --- !u!95 &982224209
 Animator:
@@ -1261,6 +1273,7 @@ GameObject:
   - component: {fileID: 1520563592}
   - component: {fileID: 1520563594}
   - component: {fileID: 1520563593}
+  - component: {fileID: 1520563595}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1281,12 +1294,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 743019589}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -25.25}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 106.29175, y: -25.25}
+  m_SizeDelta: {x: 212.5835, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1520563593
 MonoBehaviour:
@@ -1371,7 +1384,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -9.679657, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1385,6 +1398,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520563591}
   m_CullTransparentMesh: 1
+--- !u!114 &1520563595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520563591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d1885f3e1cabbd4ba479f71db48677f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1628462184
 GameObject:
   m_ObjectHideFlags: 0
@@ -4351,3 +4376,138 @@ PolygonCollider2D:
       - {x: 8.9826975, y: 6.0257683}
       - {x: 9.020423, y: -3.9792576}
       - {x: -8.9920025, y: -4.05135}
+--- !u!1 &1890353792
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1890353793}
+  - component: {fileID: 1890353795}
+  - component: {fileID: 1890353794}
+  m_Layer: 5
+  m_Name: Game Over
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1890353793
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890353792}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 743019589}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0.000005722}
+  m_SizeDelta: {x: 493.3665, y: 93.1421}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1890353794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890353792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: GAME OVER
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 80
+  m_fontSizeBase: 80
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: -1.4380951}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1890353795
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890353792}
+  m_CullTransparentMesh: 1

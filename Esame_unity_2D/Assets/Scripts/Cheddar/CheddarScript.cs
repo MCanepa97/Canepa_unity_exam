@@ -17,7 +17,10 @@ public class CheddarScript : MonoBehaviour
     private void Update() 
     {
         if(goblinBody!=null)
-        transform.position = Vector2.MoveTowards(this.transform.position, goblinBody.transform.position, 4*Time.deltaTime);
+            transform.position = Vector2.MoveTowards(this.transform.position, goblinBody.transform.position, 4*Time.deltaTime);
+        else if (goblinBody==null)
+            transform.position = Vector2.MoveTowards(this.transform.position, this.transform.position, 4*Time.deltaTime);
+        
     }
 
     // Update is called once per frame
@@ -34,6 +37,7 @@ public class CheddarScript : MonoBehaviour
 
     public async void GoblinGotHit()
     {
+        
         goblinBody=null;
         cheddarBody.GetComponent<SpriteRenderer>().enabled = true;
         cheddarBody.GetComponent<Rigidbody2D>().constraints=RigidbodyConstraints2D.FreezeAll;

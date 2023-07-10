@@ -9,7 +9,8 @@ public class GoblinSpawner : MonoBehaviour
     public int currentRound = 1;
     public int requiredGoblins = 1;
     public int goblinKilled = 0;
-
+    public GameObject barrell;
+    public GameObject cheddar;
     public int currentGoblinNum=0;
     public TMP_Text roundCounter;
     public TMP_Text gameOver;
@@ -65,6 +66,8 @@ public class GoblinSpawner : MonoBehaviour
             requiredGoblins++;
             currentGoblinNum=0;
             goblinKilled=0;
+            barrell.GetComponent<Animator>().SetBool("CheddarStolen",false);
+            cheddar.GetComponent<CheddarScript>().newRoundStarted=true;
         }          
     }
 

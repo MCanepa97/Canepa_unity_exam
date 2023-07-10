@@ -545,6 +545,8 @@ MonoBehaviour:
   currentRound: 1
   requiredGoblins: 1
   goblinKilled: 0
+  barrell: {fileID: 1233640945}
+  cheddar: {fileID: 767656408}
   currentGoblinNum: 0
   roundCounter: {fileID: 1520563593}
   gameOver: {fileID: 1890353794}
@@ -737,6 +739,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d22fcf3354142689d073bbe8e67354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barrell: {fileID: 1233640945}
+  spawnPoint: {x: 0.56, y: 1.31}
+  newRoundStarted: 0
   goblin: {fileID: 982224206}
 --- !u!212 &767656411
 SpriteRenderer:
@@ -1145,7 +1150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1233640952}
-  hasCheddar: 1
 --- !u!95 &1233640952
 Animator:
   serializedVersion: 5

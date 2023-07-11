@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 public class GoblinAI : MonoBehaviour
 {
+    public static int goblinSlayed = 0;
     float rotationDegree;
     public GameObject cameraScripts;
     public Vector2 direction;
@@ -124,6 +125,7 @@ public class GoblinAI : MonoBehaviour
 
     private void OnDestroy() 
     {
-    cameraScripts.GetComponent<GoblinSpawner>().goblinKilled++;    
+        cameraScripts.GetComponent<GoblinSpawner>().goblinKilled++;
+        goblinSlayed++;
     }
 }

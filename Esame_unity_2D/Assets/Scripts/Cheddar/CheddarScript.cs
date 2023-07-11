@@ -7,7 +7,7 @@ public class CheddarScript : MonoBehaviour
     Rigidbody2D cheddarBody;
     Rigidbody2D goblinBody;
     public GameObject barrell;
-    public Vector2 spawnPoint= new Vector2(0.56f, 1.31f);
+    public Vector2 spawnPoint= new Vector3(0.56f, 1.31f,0);
     public bool newRoundStarted=false;
     public GameObject goblin;
     // Start is called before the first frame update
@@ -15,7 +15,7 @@ public class CheddarScript : MonoBehaviour
         cheddarBody = GetComponent<Rigidbody2D>();
     }
 
-    private void Update(){
+    private async void Update(){
         if(goblinBody!=null)
             transform.position = Vector2.MoveTowards(this.transform.position, goblinBody.transform.position, 4*Time.deltaTime);
         else if (goblinBody==null)
@@ -23,7 +23,10 @@ public class CheddarScript : MonoBehaviour
         
         if(newRoundStarted){
             transform.position= spawnPoint; 
-            cheddarBody.GetComponent<SpriteRenderer>().enabled = false;  
+            await Task.Delay(100);
+            newRoundStarted=false;
+            cheddarBody.GetComponent<SpriteRenderer>().enabled = false;
+            //cheddarBody.GetComponent<Rigidbody2D>().constraints=RigidbodyConstraints2D.FreezeRotation;
         }
     }
 

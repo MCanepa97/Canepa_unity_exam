@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GoblinSpawner : MonoBehaviour
 {
-    public int currentRound = 1;
+    public static int currentRound = 1;
     public int requiredGoblins = 1;
     public int goblinKilled = 0;
     public GameObject barrell;
@@ -33,13 +34,16 @@ public class GoblinSpawner : MonoBehaviour
         InvokeRepeating("KeepTrackOfGoblinSpawnAndRound",0,1);
     }
 
-    private void Update() 
+    private async void Update() 
     {
         roundCounter.text="ROUND "+currentRound;
         if (cheddarGotStolen)
         {
+            
             gameOver.gameObject.SetActive(true);
             cheddarGotStolen = false;
+            await Task.Delay(1000);
+            SceneManager.LoadScene(2);
         } 
         
         
